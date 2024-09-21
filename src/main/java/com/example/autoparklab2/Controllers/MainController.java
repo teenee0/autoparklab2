@@ -39,11 +39,13 @@ public class MainController {
         model.addAttribute("title", "Автопарк");
         return "autopark";
     }
+
     @GetMapping("/support")
     public String support(Model model) {
         model.addAttribute("title", "Поддержка");
         return "support";
     }
+
     @GetMapping("/addcar")
     public String addcar(Model model) {
         model.addAttribute("title", "Добавить машину");
@@ -55,6 +57,7 @@ public class MainController {
         model.addAttribute("title", "Страница входа");
         return "login";
     }
+
     @GetMapping("/autopark/{id}")
     public String autopark(Model model, @PathVariable long id) {
         if (!carsRepository.existsById(id)){
@@ -133,11 +136,11 @@ public class MainController {
             @RequestParam(required = false, defaultValue = "asc") String sort,
             Model model) {
 
-        // Определяем направление сортировки по параметру
+
         Sort.Direction sortDirection = sort.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sortBy = Sort.by(sortDirection, "registration_date");
 
-        // Проверяем, есть ли фильтры, и вызываем метод поиска
+
         List<Cars> cars;
         if (brand != null || manufacture_year != null || registration_date != null || full_name != null) {
             cars = carsRepository.findByParams(brand, manufacture_year, registration_date, full_name, sortBy);
@@ -145,7 +148,7 @@ public class MainController {
             cars = carsRepository.findAll(sortBy);
         }
 
-        // Добавляем отфильтрованные данные в модель для отображения на странице
+
         model.addAttribute("cars", cars);
         return "autopark"; // Имя шаблона для отображения
     }
